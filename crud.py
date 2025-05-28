@@ -13,14 +13,17 @@ def create_employee(db: Session, employee: schemas.EmployeeCreate):
     db.refresh(db_employee)
     return db_employee
 
+
 def get_employees(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Employee).offset(skip).limit(limit).all()
 
 def get_employee_by_code(db: Session, code: str):
     return db.query(models.Employee).filter(models.Employee.employee_code == code).first()
 
-def get_employees(db: Session):
-    return db.query(models.Employee).all()
+def get_employee(db: Session, employee_id: int):
+    return db.query(models.Employee).filter(models.Employee.id == employee_id).first()
+
+
 
 def search_employees_by_last_name(db: Session, last_name: str):
     return db.query(models.Employee).filter(models.Employee.last_name.ilike(f"%{last_name}%")).all()
